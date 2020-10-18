@@ -1,0 +1,3 @@
+#!/bin/bash
+GOOS=darwin GOARCH=amd64 go build -o dist/go-oif-darwin-amd64 -ldflags "-s -w" cmd/go-oif/main.go
+GOOS=linux GOARCH=amd64 go build -o dist/go-oif-linux-amd64 -ldflags "-s -w" cmd/go-oif/main.go
