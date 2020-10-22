@@ -8,6 +8,15 @@ categories:
 2. Third-party imports (all your dependencies)
 3. Project dependencies
 
+## Install
+
+Run the following to automatically download and install the latest version
+to `$(go env GOPATH)/bin/go-oif`
+
+```
+curl -sSfL https://raw.githubusercontent.com/heyvito/go-oif/main/install.sh | sh -s -- -b $(go env GOPATH)/bin
+```
+
 ## Usage
 This tool attempts to guess the project name (in order to detect local
 dependencies) using data from `go.mod`. In case your project does not use
