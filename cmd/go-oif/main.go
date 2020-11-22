@@ -18,22 +18,51 @@ import (
 	"github.com/heyvito/go-oif/formatter"
 )
 
-func main() {
-	log.SetHandler(cliHandler.Default)
-	projectName := ""
-	var projNameError error
-	if _, err := os.Stat("./go.mod"); err == nil {
-		data, err := ioutil.ReadFile("./go.mod")
+func findProjectName() (*string, error) {
+	cwd, err := os.Getwd()
+	if err != nil {
+		return nil, err
+	}
+
+	// Find our go.mod
+	for {
+		log.Debugf("Looking for go.mod in %s", cwd)
+		fn := filepath.Join(cwd, "go.mod")
+		stat, err := os.Stat(fn)
+		if err != nil && !os.IsNotExist(err) {
+			return nil, err
+		}
+		if os.IsNotExist(err) || stat.IsDir() {
+			nextCwd := filepath.Dir(cwd)
+			if nextCwd == cwd {
+				// Root path. Just bail.
+				return nil, nil
+			}
+			cwd = nextCwd
+			continue
+		}
+
+		// Found it.
+		data, err := ioutil.ReadFile(fn)
 		if err != nil {
-			projNameError = err
+			return nil, err
 		} else {
 			file, err := modfile.Parse("go.mod", data, nil)
 			if err != nil {
-				projNameError = err
+				return nil, err
 			} else {
-				projectName = file.Module.Mod.Path
+				return &file.Module.Mod.Path, nil
 			}
 		}
+	}
+}
+
+func main() {
+	log.SetHandler(cliHandler.Default)
+	projNamePtr, projNameErr := findProjectName()
+	projName := ""
+	if projNamePtr != nil {
+		projName = *projNamePtr
 	}
 
 	app := cli.NewApp()
@@ -47,8 +76,8 @@ func main() {
 			Name:        "project-name",
 			Aliases:     []string{"n"},
 			Usage:       "Indicates the base project name to sort imports. By default, oif detects the project name using data from your go.mod",
-			Value:       projectName,
-			DefaultText: projectName,
+			Value:       projName,
+			DefaultText: projName,
 		},
 		&cli.BoolFlag{
 			Name:    "verbose",
@@ -64,11 +93,11 @@ func main() {
 			log.Debug("Running in verbose mode")
 		}
 		switch {
-		case projectName == "" && projNameError != nil:
-			log.Errorf("Could not read project name from go.mod: %s", projNameError)
+		case projName == "" && projNameErr != nil:
+			log.Errorf("Could not read project name from go.mod: %s", projNameErr)
 			log.Error("Either use --project-name, or fix your go.mod")
 			os.Exit(1)
-		case projectName == "":
+		case projName == "":
 			log.Error("Could not determine project name. Please set it using --project-name, or use go mod")
 			os.Exit(1)
 		}
@@ -111,7 +140,7 @@ func main() {
 
 		log.Debugf("Processing %d files", len(files))
 
-		processFiles(files, projectName)
+		processFiles(files, projName)
 		return nil
 	}
 
