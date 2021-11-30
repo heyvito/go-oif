@@ -53,9 +53,10 @@ import (
 
 	"github.com/foo/barA"
 	"github.com/foo/barB"
+	annotatedImport "github.com/foo/barB"
 	"github.com/foo/barC"
 	"github.com/foo/barD"
-	"github.com/lib/side_effects_import"
+	_ "github.com/lib/side_effects_import"
 
 	"github.com/test/proj-name/importa"
 	"github.com/test/proj-name/importb"
@@ -63,13 +64,13 @@ import (
 	"github.com/test/proj-name/importd"
 	"github.com/test/proj-name/importe"
 	"github.com/test/proj-name/importf"
-	"github.com/test/proj-name/importg"
+	ig "github.com/test/proj-name/importg"
 	"github.com/test/proj-name/importh"
 	"github.com/test/proj-name/importi"
 	"github.com/test/proj-name/importj"
 	"github.com/test/proj-name/importk"
-	"github.com/test/proj-name/namedimport"
-	"github.com/test/proj-name/side-effects-import"
+	ni "github.com/test/proj-name/namedimport"
+	_ "github.com/test/proj-name/side-effects-import"
 )
 `
 

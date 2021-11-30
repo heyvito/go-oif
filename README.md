@@ -28,7 +28,7 @@ Consider a project with the following go.mod file:
 ```go.mod
 module github.com/heyvito/go-foo
 
-go 1.15
+go 1.17
 
 // ...
 ```
@@ -118,7 +118,7 @@ $ go-oif -n github.com/heyvito/go-foo ./...
 ```
 MIT License
 
-Copyright (c) 2020 Vito Sartori
+Copyright (c) 2020-2021 Victor "Vito" Gama de Oliveira
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
