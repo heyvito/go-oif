@@ -64,6 +64,7 @@ get_binaries() {
   case "$PLATFORM" in
     darwin/386) BINARIES="go-oif" ;;
     darwin/amd64) BINARIES="go-oif" ;;
+    darwin/arm64) BINARIES="go-oif" ;;
     linux/386) BINARIES="go-oif" ;;
     linux/amd64) BINARIES="go-oif" ;;
     *)
