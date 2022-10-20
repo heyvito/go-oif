@@ -1,7 +1,6 @@
 package main
 
 import (
-	"io/ioutil"
 	"os"
 	"path/filepath"
 	"regexp"
@@ -43,7 +42,7 @@ func findProjectName() (*string, error) {
 		}
 
 		// Found it.
-		data, err := ioutil.ReadFile(fn)
+		data, err := os.ReadFile(fn)
 		if err != nil {
 			return nil, err
 		} else {
@@ -69,7 +68,7 @@ func main() {
 	app.Name = "Opinionated Imports Formatter"
 	app.Usage = "Formats imports grouping by source"
 	app.Authors = []*cli.Author{
-		{Name: "Vito Sartori", Email: "vito@hash.com.br"},
+		{Name: "Victor \"Vito\" Gama", Email: "hey@vito.io"},
 	}
 	app.Flags = []cli.Flag{
 		&cli.StringFlag{
@@ -182,7 +181,7 @@ consumer:
 		if err != nil {
 			panic(err)
 		}
-		file, err := ioutil.ReadFile(path)
+		file, err := os.ReadFile(path)
 		if err != nil {
 			panic(err)
 		}
@@ -199,7 +198,7 @@ consumer:
 		}
 
 		file = []byte(formatter.FormatImports(projName, string(file)))
-		err = ioutil.WriteFile(path, file, stat.Mode())
+		err = os.WriteFile(path, file, stat.Mode())
 		if err != nil {
 			panic(err)
 		}
