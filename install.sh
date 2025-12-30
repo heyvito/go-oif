@@ -67,6 +67,7 @@ get_binaries() {
     darwin/arm64) BINARIES="go-oif" ;;
     linux/386) BINARIES="go-oif" ;;
     linux/amd64) BINARIES="go-oif" ;;
+    linux/arm64) BINARIES="go-oif" ;;
     *)
       log_crit "platform $PLATFORM is not supported.  Make sure this script is up-to-date and file request at https://github.com/${PREFIX}/issues/new"
       exit 1
